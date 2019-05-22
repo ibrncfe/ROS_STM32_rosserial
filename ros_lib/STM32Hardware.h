@@ -45,12 +45,13 @@ extern USART_TypeDef huart2;
 class STM32Hardware {
   protected:
 	TIM_TypeDef *htim;
+	TIM_TimeBaseInitTypeDef* htbis;
 	USART_TypeDef *huart;
 
     const static uint16_t rbuflen = 128;
     uint8_t rbuf[rbuflen];
     uint32_t rind;
-    inline uint32_t getRdmaInd(void){ return (rbuflen - huart->hdmarx->Instance->CNDTR) & (rbuflen - 1); }
+    //inline uint32_t getRdmaInd(void){ return (rbuflen - huart->hdmarx->Instance->CNDTR) & (rbuflen - 1); }
 
     const static uint16_t tbuflen = 256;
     uint8_t tbuf[tbuflen];
@@ -61,14 +62,14 @@ class STM32Hardware {
       htim(&htim2), huart(&huart2), rind(0), twind(0), tfind(0){
     }
 
-    STM32Hardware(TIM_HandleTypeDef *htim_, UART_HandleTypeDef *huart_):
+    STM32Hardware(TIM_TypeDef *htim_, USART_InitTypeDef *huart_):
       htim(htim_), huart(huart_), rind(0), twind(0), tfind(0){
     }
   
     void init(){
       reset_rbuf();
 
-      HAL_TIM_Base_Start(htim);
+      TIM_TimeBaseStructInit(htbis);
     }
 
     void reset_rbuf(void){
