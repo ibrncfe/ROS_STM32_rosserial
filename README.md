@@ -22,14 +22,14 @@ Example of a node 'chatter' between PC and STM32:
 
 //in while loop:
 
-      if (nh.connected())
-      {
-          if(HAL_GetTick() - chatter_last > chatter_interval)
-          {
-              str_msg.data = hello;
-              chatter.publish(&str_msg);
-              chatter_last = HAL_GetTick();
-          }
-      }
+    if (nh.connected())
+    {
+        if(HAL_GetTick() - chatter_last > chatter_interval)
+        {
+            str_msg.data = hello;
+            chatter.publish(&str_msg);
+            chatter_last = HAL_GetTick();
+        }
+    }
 
-      nh.spinOnce();
+    nh.spinOnce();
